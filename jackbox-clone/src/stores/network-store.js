@@ -21,6 +21,13 @@ export const useNetworkStore = defineStore('network', {
         setUsername(usernameInput) {
             this.username = usernameInput
             this.currentState = 'waiting'
+        },
+        startGame() {
+            this.currentState = 'answer-question'
+        },
+        sendAnswer(answer) {
+            this.currentState = 'answer-sent'
+            console.log('call network function to send answer: ', answer)
         }
     }
 })
