@@ -24,13 +24,9 @@
         <div v-else-if="networkStore.getCurrentState == 'answer-sent'">
           <p>What is the capital of Brazil?</p>
           <div class="answer-grid">
-            <button class="button-answer">St.James</button>
-            <button class="button-answer">Rolla</button>
-            <button class="button-answer">Brasilia</button>
-            <button class="button-answer">St.Louis</button>
-            <button class="button-answer">Kansas City</button>
-            <button class="button-answer">St.Roberts</button>
+            <ButtonAnswer v-for="answer in networkStore.answers" :answer="answer"/>
           </div>
+          <input type="button" value="add answer (test function)" @click="add_test_answer()" />
         </div>
       </div>
     </div>
@@ -38,12 +34,14 @@
 
 <script>
   import HeaderBar from './header-bar.vue'
+  import ButtonAnswer from './button-answer.vue'
   import { useNetworkStore } from '../stores/network-store'
 
   export default {
     name: 'HomeScreen',
     components: {
-      HeaderBar
+      HeaderBar,
+      ButtonAnswer
     },
     data() {
       return {
@@ -68,6 +66,9 @@
       },
       send_answer(answer) {
         this.networkStore.sendAnswer(answer)
+      },
+      add_test_answer() {
+        this.networkStore.answers.push("test")
       }
     }
   }
@@ -82,35 +83,6 @@
   .Home {
     margin:0;
     height: 100vh;
-  }
-  .button-answer {
-    background-color: #ffffff;
-    border: 2px solid #2c3e50;
-    border-radius: 30px;
-    box-shadow: #2c3e50 4px 4px 0 0;
-    color: #2c3e50;
-    cursor: pointer;
-    display: inline-block;
-    font-weight: 600;
-    font-size: 18px;
-    line-height: 40px;
-    text-align: center;
-    text-decoration: none;
-    user-select: none;
-    -webkit-user-select: none;
-    touch-action: manipulation;
-  }
-
-  .button-answer:active {
-    box-shadow: #2c3e50 2px 2px 0 0;
-    transform: translate(2px, 2px);
-  }
-
-  @media (min-width: 768px) {
-    .button-answer {
-      min-width: 120px;
-      padding: 0 25px;
-    }
   }
   .answer-grid {
     display: grid;

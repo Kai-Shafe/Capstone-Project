@@ -6,6 +6,7 @@ export const useNetworkStore = defineStore('network', {
         roomCode: '',
         username: '',
         host: false,
+        answers: []
     }),
     getters: {
         getCurrentState: (state) => state.currentState,
@@ -27,6 +28,7 @@ export const useNetworkStore = defineStore('network', {
         },
         sendAnswer(answer) {
             this.currentState = 'answer-sent'
+            this.answers.push(answer)
             console.log('call network function to send answer: ', answer)
         }
     }
