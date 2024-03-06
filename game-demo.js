@@ -32,6 +32,7 @@ class FibbageGame {
       const playerFakeAnswer = await this.askPlayerFake(player);
       fakeAnswers.push(playerFakeAnswer);
     }
+    //console.log(fakeAnswers)
     return fakeAnswers;
   }
 
@@ -42,6 +43,7 @@ class FibbageGame {
 
      //Store fake answers in the array with player indices
     this.fakeAnswers = fakeAnswers
+    //console.log(this.fakeAnswers)
   }
     
     async displayQuestion() {
@@ -49,7 +51,7 @@ class FibbageGame {
       const shuffledAnswers = this.answers;
   
       console.log(`Question: ${question}`);
-      console.log("Potential Answers:", shuffledAnswers);
+      console.log("Shuffled Answers:", shuffledAnswers);
   
       await this.collectPlayerAnswers();
     }
@@ -71,8 +73,8 @@ class FibbageGame {
       const correctAnswer = this.dictionary[this.questions[this.currentQuestionIndex]];
     
       for (let player of this.players) {
-        const playerAnswer = await this.askPlayer(player);
-    
+        let playerAnswer = await this.askPlayer(player);
+        
         // Check if the answer is correct
         if (playerAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
           // Award points for guessing correct answers
@@ -81,8 +83,13 @@ class FibbageGame {
           console.log(`Player ${player} guessed the correct answer! (+50 points)`);
         } else {
           // Check if the answer is a fake answer
-          const fakeAnswerPlayer = this.fakeAnswers.findIndex(answers => answers.includes(playerAnswer));
+          let fakeAnswerPlayer = this.fakeAnswers.findIndex(answers => answers.includes(playerAnswer));
           if (fakeAnswerPlayer !== -1) {
+            while (fakeAnswerPlayer + 1 === Number(player)) {
+                console.log("You cannot choose your own answer.")
+                playerAnswer = await this.askPlayer(player)
+                fakeAnswerPlayer = this.fakeAnswers.findIndex(answers => answers.includes(playerAnswer));
+            }
             // Award points for guessing a fake answer
             this.scores[fakeAnswerPlayer + 1] = this.scores[fakeAnswerPlayer + 1] || 0;
             this.scores[fakeAnswerPlayer + 1] += 100; // Award 100 points for guessing a fake answer
@@ -109,18 +116,28 @@ class FibbageGame {
     }
   }
 
-    askPlayerFake(player){
-      return new Promise(resolve => {
-          this.rl.question(`Enter your fake answer ${player}: `,answer=>{
+  askPlayerFake(player){
+    return new Promise(resolve => {
+        const theFakes=this.fakeAnswers;
+        const question=`Enter your Fake Answer, Player ${player}: `;
+        const correctAnswer = this.dictionary[this.questions[this.currentQuestionIndex]];
+        this.rl.question(question,answer=>{
+          if(theFakes.includes(answer) || answer==correctAnswer){
+              console.log(`Try a different fake answer...`);//output when answer is either the same as another fake answer or it is the correct answer
+              this.askPlayerFake(player).then(resolve);
+          }else{
+              this.fakeAnswers.push(answer);
               resolve(answer);
-          });
-      });
-    }
+          }
+        })
+
+    });
+  }
     async askPlayer(player) {
         const shuffledAnswers = this.answers;
 
         return new Promise(resolve => {
-            const question = `Enter your answer, Player ${player}: `;
+            const question = `Enter your answer, Player ${player} (${shuffledAnswers.join(', ')}): `;
 
             this.rl.question(question, answer => {
             // Check if the entered answer is one of the shuffled answers
@@ -149,4 +166,3 @@ class FibbageGame {
   const players = ["1", "2", "3"];
   const fibbageGame = new FibbageGame(players);
   fibbageGame.startRound();
-
