@@ -1,22 +1,9 @@
-let all_questions = [];
+let all_questions = require('./questions.json');
+const fs = require('fs');
 test();
 
 function test()
 {
-    let example_json = [
-        {
-            "subject": "Chemistry",
-            "questions": ["How much is a mole?", "What is the atomic number of Carbon?"],
-            "correct_answers": ["6.022 x 10^23", "6"]
-        },
-    ];
-
-    let example_json_string = JSON.stringify(example_json);
-
-    read_from_JSON(example_json_string);
-
-
-
     let example_questions = ["Solve for x: 5x + 3 = 13", "Solve for x: 7x + 2 = 5x + 10"];
     let example_answers = ["2", "4"];
 
@@ -27,8 +14,6 @@ function test()
 
     write_to_JSON("History Questions", example_questions, example_answers);
 
-
-
     let math_questions = get_questions("Math Questions");
     console.log(math_questions);
 
@@ -36,48 +21,52 @@ function test()
     console.log(math_answers);
 }
 
-// Takes a subject and two arrays of questions and answers that the host types in, and writes them to a JSON file.
+// Takes a subject and two arrays of questions and answers that the host types in, and writes them to a JSON file in the form of a dictionary
 function write_to_JSON(subject, questions, correct_answers)
 {
-    let Question_set = {
-        "subject": subject,
-        "questions": questions,
-        "correct_answers": correct_answers
+    let dict = {
+        "subject": subject
+    };
+
+    for(let i = 0; i < questions.length; i++)
+    {
+        dict[questions[i]] = correct_answers[i];
     }
 
-    all_questions.push(Question_set);
+    all_questions.push(dict);
 
     let json_string = JSON.stringify(all_questions);
-    console.log(json_string); // write json_string to file here.
-}
-
-// Reads questions from JSON file and stores them in an array. Should be called once every time game is launched.
-function read_from_JSON(example_json_string)
-{
-    // read file here, store contents in json_string. will need to use fetch() and make http request.
-    all_questions = JSON.parse(example_json_string);
+    fs.writeFile("./questions.json", json_string, err => {
+        if(err) {
+          console.error(err);
+        }
+    });
 }
 
 // Called when the host chooses which set of questions they want to use. Returns an array containing the questions.
-function get_questions(subject_)
+function get_questions(chosen_subject)
 {
     for(let i = 0; i < all_questions.length; i++)
     {
-        if(all_questions[i].subject == subject_)
+        if(all_questions[i].subject == chosen_subject)
         {
-            return all_questions[i].questions;
+            let questions = Object.keys(all_questions[i]);
+            questions.shift();
+            return questions;
         }
     }
 }
 
 // Called when the host chooses which set of questions they want to use. Returns an array containing the correct answers.
-function get_answers(subject_)
+function get_answers(chosen_subject)
 {
     for(let i = 0; i < all_questions.length; i++)
     {
-        if(all_questions[i].subject == subject_)
+        if(all_questions[i].subject == chosen_subject)
         {
-            return all_questions[i].correct_answers;
+            let answers = Object.values(all_questions[i]);
+            answers.shift();
+            return answers;
         }
     }
 }
