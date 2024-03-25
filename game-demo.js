@@ -1,16 +1,14 @@
+let util = require('./util.js');
+let all_questions = require('./questions.json');
+
 const readline = require('readline');
 class FibbageGame {
     constructor(players) {
       this.players = players;
-      const dictionary = {
-        "What us the official language of Brazil?":"Portuguese",
-        "The capital of France is...":"Paris",
-        // Add more questions as needed
-      };
       this.scores = {}; // Object to store player scores
       this.fakeAnswers = Array(players.length).fill([]); // Array to store fake answers for each player
-      this.questions=Object.keys(dictionary);
-      this.dictionary=dictionary;
+      this.questions;
+      this.correct_answers;
       this.currentQuestionIndex = 0;
       this.answers = [];
       this.rl = readline.createInterface({
@@ -18,6 +16,53 @@ class FibbageGame {
         output: process.stdout
       });
     }
+
+    promptUser(prompt) {
+      return new Promise(resolve => this.rl.question(prompt, answer => {
+        resolve(answer);
+      }));
+    }
+
+    async getQuestions() {
+      const prompt = "Please select an option: [1] Choose a set of questions   [2] Create a new set of questions\n";
+      let option = await this.promptUser(prompt);
+      if(option == "1") {
+        await this.getQuestionsFromList();
+      }
+      else {
+        await this.createQuestionSet();
+        await this.getQuestions();
+      }
+    }
+
+    async getQuestionsFromList() {
+      console.log("Please select a set of questions to use:");
+      for(let i = 0; i < all_questions.length; i++) // Print out all of the saved question sets
+      {
+        console.log(`[${i}] ${all_questions[i].subject}`);
+      }
+      const chosen_subject_index = await this.promptUser("");
+      const chosen_subject = all_questions[chosen_subject_index].subject;
+      this.correct_answers = util.get_correct_answers(all_questions, chosen_subject);
+      this.questions = util.get_questions(all_questions, chosen_subject);
+    }
+
+    async createQuestionSet() {
+      let new_questions = [];
+      let new_answers = [];
+      const new_subject = await this.promptUser("Subject name: ");
+      const num_questions = await this.promptUser("Number of questions: ");
+      for(let i = 0; i < num_questions; i++)
+      {
+        const new_question = await this.promptUser("Enter question: ");
+        new_questions.push(new_question);
+        const new_answer = await this.promptUser("Enter answer: ");
+        new_answers.push(new_answer);
+      }
+      util.write_to_JSON(all_questions, new_subject, new_questions, new_answers);
+    }
+
+
   
   async startRound() {
     this.fakeAnswers = Array(this.players.length).fill([]); // Clear fake answers array between rounds
@@ -37,7 +82,7 @@ class FibbageGame {
   }
 
   async shuffleAnswers() {
-    const correctAnswer = this.dictionary[this.questions[this.currentQuestionIndex]];
+    const correctAnswer = this.correct_answers[this.currentQuestionIndex];
     const fakeAnswers = await this.getFakeAnswers();
     this.answers = shuffle([correctAnswer, ...fakeAnswers]);
 
@@ -70,7 +115,7 @@ class FibbageGame {
     }*/
   
     async collectPlayerAnswers() {
-      const correctAnswer = this.dictionary[this.questions[this.currentQuestionIndex]];
+      const correctAnswer = this.correct_answers[this.currentQuestionIndex];
     
       for (let player of this.players) {
         let playerAnswer = await this.askPlayer(player);
@@ -120,7 +165,7 @@ class FibbageGame {
     return new Promise(resolve => {
         const theFakes=this.fakeAnswers;
         const question=`Enter your Fake Answer, Player ${player}: `;
-        const correctAnswer = this.dictionary[this.questions[this.currentQuestionIndex]];
+        const correctAnswer = this.correct_answers[this.currentQuestionIndex];
         this.rl.question(question,answer=>{
           if(theFakes.includes(answer) || answer==correctAnswer){
               console.log(`Try a different fake answer...`);//output when answer is either the same as another fake answer or it is the correct answer
@@ -165,4 +210,8 @@ class FibbageGame {
   // Example usage
   const players = ["1", "2", "3"];
   const fibbageGame = new FibbageGame(players);
-  fibbageGame.startRound();
+  async function begin() {
+    await fibbageGame.getQuestions();
+    fibbageGame.startRound();
+  }
+  begin();
