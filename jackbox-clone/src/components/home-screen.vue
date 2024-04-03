@@ -2,31 +2,61 @@
     <div class="Home">
       <HeaderBar />
       <div v-if="networkStore.getCurrentState == 'none'">
-        <input v-model="room_code" placeholder="Enter Room Code" />
-        <input type="button" value="Submit" @click="join_game(room_code)" />
-        <p>OR</p>
-        <button @click="host_game">Host Game?</button>
+        <input v-model="username_input" placeholder="Enter Username" />
+        <input type="button" value="Submit" @click="set_username(username_input)" />
       </div>
       <div v-else>
-        <div v-if="networkStore.getCurrentState == 'joined'">
-          <input v-model="username_input" placeholder="Enter Username" />
-          <input type="button" value="Submit" @click="set_username(username_input)" />
+        <div v-if="networkStore.getCurrentState == 'hostOrJoin'">
+          <input v-model="room_code" placeholder="Enter Room Code" />
+          <input type="button" value="Submit" @click="join_game(room_code)" />
+          <p>OR</p>
+          <button @click="host_game()">Host Game?</button>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'waiting'">
-          <p>Waiting for players</p>
-          <input type="button" value="Everybody's In" @click="start_game()" />
+          <p>Room Code:</p>
+          <p><b>{{ this.networkStore.roomCode }}</b></p>
+          <div v-if="this.networkStore.host == false">
+            <p>Waiting for host to start...</p>
+          </div>
+          <div v-if="this.networkStore.host == true">
+            <table class="player-list">
+              <tr>
+                <th>Players</th>
+              </tr>
+              <PlayerList v-for="username in networkStore.players" :playerName="username"/>
+            </table>
+            <ButtonAnswer @click="start_game()" answer="Everybody's In"/>
+          </div>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
           <p>What is the capital of Brazil?</p>
           <input v-model="answer" placeholder="Enter lie" />
           <input type="button" value="Submit" @click="send_answer(answer)" />
+          <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-sent'">
           <p>What is the capital of Brazil?</p>
+          <p>Waiting for other players to submit an answer...</p>
+        </div>
+        <div v-else-if="networkStore.getCurrentState == 'show-answers'">
+          <p>What is the capital of Brazil?</p>
           <div class="answer-grid">
-            <ButtonAnswer v-for="answer in networkStore.answers" :answer="answer"/>
+            <ButtonAnswer 
+              v-for="answer in networkStore.answers" 
+              :answer="answer.answer"
+              @click="select_answer(answer.answer)"
+            />
           </div>
+          <TimerBar :widthTimer="this.networkStore.clockTimer"/>
           <input type="button" value="add answer (test function)" @click="add_test_answer()" />
+        </div>
+        <div v-else-if="networkStore.getCurrentState == 'answer-selected'">
+          <p>What is the capital of Brazil?</p>
+          <p>Waiting for other players to select an answer...</p>
+        </div>
+        <div v-else-if="networkStore.getCurrentState == 'show-correct-answer'">
+          <p>What is the capital of Brazil?</p>
+          
         </div>
       </div>
     </div>
@@ -35,13 +65,17 @@
 <script>
   import HeaderBar from './header-bar.vue'
   import ButtonAnswer from './button-answer.vue'
+  import PlayerList from './player-list.vue'
+  import TimerBar from './timer-bar.vue'
   import { useNetworkStore } from '../stores/network-store'
 
   export default {
     name: 'HomeScreen',
     components: {
       HeaderBar,
-      ButtonAnswer
+      ButtonAnswer,
+      PlayerList,
+      TimerBar
     },
     data() {
       return {
@@ -53,10 +87,10 @@
     },
     methods: {
       host_game() {
-        this.networkStore.host = true
+        this.networkStore.hostGame()
       },
       join_game(roomCode) {
-        this.networkStore.setRoomCode(roomCode)
+        this.networkStore.joinGame(roomCode)
       },
       set_username(usernameInput) {
         this.networkStore.setUsername(usernameInput)
@@ -69,6 +103,9 @@
       },
       add_test_answer() {
         this.networkStore.answers.push("test")
+      },
+      select_answer(answer) {
+        this.networkStore.selectAnswer(answer)
       }
     }
   }
@@ -83,6 +120,9 @@
   .Home {
     margin:0;
     height: 100vh;
+  }
+  .player-list {
+    margin: 5%;
   }
   .answer-grid {
     display: grid;
