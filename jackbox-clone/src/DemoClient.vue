@@ -1,13 +1,14 @@
 <template>
   <div>
-    <div>
-      <input type="text" v-model="answer" placeholder="Enter your answer">
-      <button @click="submitAnswer">Submit</button>
-    </div>
-    <div>
+    <div v-if="!selectedAnswer">
       <ul>
-        <li v-for="(answer, index) in compiledMessage.answers" :key="index">{{ answer }}</li>
+        <li v-for="(answer, index) in compiledMessage.answers" :key="index">
+          <button @click="selectAnswer(answer)">{{ answer }}</button>
+        </li>
       </ul>
+    </div>
+    <div v-else>
+      <p>You selected: {{ selectedAnswer }}</p>
     </div>
   </div>
 </template>
@@ -18,7 +19,7 @@ import io from 'socket.io-client';
 export default {
   data() {
     return {
-      answer: '',
+      selectedAnswer: '',
       compiledMessage: {},
       socket: null
     };
@@ -29,13 +30,16 @@ export default {
     this.socket.on('compiledMessage', (message) => {
       this.compiledMessage = message;
     });
+
+    this.socket.on('promptForCorrectAnswer', () => {
+      // Handle prompt for selecting the correct answer
+      // Display buttons to allow the user to select the correct answer
+    });
   },
   methods: {
-    submitAnswer() {
-      if (this.answer.trim() !== '') {
-        this.socket.emit('answer', this.answer.trim());
-        this.answer = ''; // Clear the input box after submitting the answer
-      }
+    selectAnswer(answer) {
+      this.selectedAnswer = answer;
+      this.socket.emit('selectCorrectAnswer', answer);
     }
   }
 };

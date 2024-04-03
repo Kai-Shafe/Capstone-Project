@@ -1,0 +1,22 @@
+[
+    {
+        "subject":"Chemistry",
+        "question":"How much is a mole?",
+        "answer":"6.022 x 10^23"
+    },
+    {
+        "subject":"Chemistry",
+        "question":"What is the atomic number of Carbon?",
+        "answer":"6"
+    },
+    {
+        "subject":"Math",
+        "question":"Solve for x: 5x + 3 = 13",
+        "answer":"2"
+    },
+    {
+        "subject":"Math",
+        "question":"Solve for x: 7x + 2 = 5x + 10",
+        "answer":"4"
+    }
+]
