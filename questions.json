@@ -1,1 +1,32 @@
-[{"subject":"Chemistry","How much is a mole?":"6.022 x 10^23","What is the atomic number of Carbon?":"6"},{"subject":"Math","Solve for x: 5x + 3 = 13":"2","Solve for x: 7x + 2 = 5x + 10":"4"}]
+{
+    "questions": [
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "5x + 3 = 13\nx = ___",
+            "correct_answer": "2",
+            "subject": "Math"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "7x + 2 = 5x + 10\nx = ___",
+            "correct_answer": "4",
+            "subject": "Math"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "A mole is equal to ___ x 10^23",
+            "correct_answer": "6.022",
+            "subject": "Chemistry"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The atomic number of Carbon is ___",
+            "correct_answer": "6",
+            "subject": "Chemistry"
+        }
+    ]
+}
