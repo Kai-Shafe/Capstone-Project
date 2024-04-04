@@ -1,5 +1,5 @@
 let util = require('./util.js');
-let all_questions = require('./questions.json');
+let json_object = require('./questions.json');
 const readline = require('readline');
 
 class FibbageGame {
@@ -38,15 +38,21 @@ class FibbageGame {
 
   async getQuestionsFromList() {
     console.log("Please select a set of questions to use:");
-    for(let i = 0; i < all_questions.length; i++) // Print out all of the saved question sets
+    let subjects = [];
+    for(let i = 0; i < json_object.questions.length; i++) // Print out all of the saved question sets
     {
-      console.log(`[${i}] ${all_questions[i].subject}`);
+      if(!subjects.includes(json_object.questions[i].subject))
+      {
+        console.log(`[${subjects.length}] ${json_object.questions[i].subject}`);
+        subjects.push(json_object.questions[i].subject);
+
+      }
     }
 
     const chosen_subject_index = await this.promptUser("");
-    const chosen_subject = all_questions[chosen_subject_index].subject;
-    this.correct_answers = util.get_correct_answers(all_questions, chosen_subject);
-    this.questions = util.get_questions(all_questions, chosen_subject);
+    const chosen_subject = subjects[chosen_subject_index];
+    this.correct_answers = util.get_correct_answers(json_object, chosen_subject);
+    this.questions = util.get_questions(json_object, chosen_subject);
   }
 
   async createQuestionSet() {
@@ -63,7 +69,7 @@ class FibbageGame {
       new_answers.push(new_answer);
     }
 
-    util.write_to_JSON(all_questions, new_subject, new_questions, new_answers);
+    util.write_to_JSON(json_object, new_subject, new_questions, new_answers);
   }
 
   async startRound() {
