@@ -11,7 +11,7 @@ export const useNetworkStore = defineStore('network', {
         roomCode: '',
         username: '',
         host: false,
-        players: [],
+        players: new Set(),
         answers: new Map(),
         points: new Map(),
         selectedAnswers: new Map(),
@@ -48,9 +48,16 @@ export const useNetworkStore = defineStore('network', {
                 switch (message.name) {
                     // When a player connects.
                     case "connected":
-                        // TODO (need): Guarantee unique usernames.
-                        this.players.push(message.data.username)
-                        this.points.set(message.data.username, 0)
+                        // Guarantee unique usernames.
+                        if(this.players.has(message.data.username)){
+                            this.players.add(message.data.username + "-1")
+                            this.points.set(message.data.username, 0)
+                        }
+                        else{
+                            this.players.add(message.data.username)
+                            this.points.set(message.data.username, 0)
+                        }
+                        
                         break
 
                     // Initialize game session.

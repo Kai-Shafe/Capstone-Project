@@ -23,7 +23,10 @@
               <tr>
                 <th>Players</th>
               </tr>
-              <PlayerList v-for="username in networkStore.players" :playerName="username"/>
+              <PlayerList v-for="username in getPlayersArray()" 
+              :key="username"
+              :playerName="username"
+              />
             </table>
             <ButtonAnswer @click="start_game()" answer="Everybody's In"/>
           </div>
@@ -42,9 +45,10 @@
           <p>What is the capital of Brazil?</p>
           <div class="answer-grid">
             <ButtonAnswer 
-              v-for="answer in networkStore.answers" 
-              :answer="answer.answer"
-              @click="select_answer(answer.answer)"
+              v-for="answer in getAnswersArray()" 
+              :key="answer"
+              :answer="answer"
+              @click="select_answer(answer)"
             />
           </div>
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
@@ -106,9 +110,16 @@
       },
       select_answer(answer) {
         this.networkStore.selectAnswer(answer)
+      },
+      getAnswersArray() {
+      return Array.from(this.networkStore.answers.values())
+      },
+      getPlayersArray() {
+        return Array.from(this.networkStore.players)
       }
     }
   }
+
 
 
 </script>
