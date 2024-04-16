@@ -77,8 +77,14 @@ export const useNetworkStore = defineStore('network', {
                         }
                         break
 
-                    // Display all answers to clients.
+                    // Display all answers to clients. Updates this.answers with shuffled array
                     case "show_answers":
+                        this.answers.clear()
+                        for(let i = 0; i < message.data.answers_array.length; i++)
+                        {
+                            this.answers.set(message.data.answers_array[i].username, message.data.answers_array[i].answer)
+                        }
+
                         this.currentState = 'show-answers'
                         this.startTimer()
                         break
@@ -232,24 +238,29 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_sent message with username and fake answer data.
         */
         async sendAnswer(answer) {
-            this.currentState = 'answer-sent'
-            const channel = this.ably.channels.get(this.roomCode)
-            await channel.publish("answer_sent", { username: this.username, answer: answer })
+            if(answer != this.questions[this.currentRound].correct_answer)
+            {
+                this.currentState = 'answer-sent'
+                const channel = this.ably.channels.get(this.roomCode)
+                await channel.publish("answer_sent", { username: this.username, answer: answer })
+            }
         },
 
         /*
         Show Answers:
             -Publish show_answers message to channel with answers map.
+            -Only called by host
         */
         async showAnswers() {
             const channel = this.ably.channels.get(this.roomCode)
 
-            // Stores key/value pairs into an array, because Ably will not send a Map
+            // Stores key/value pairs into an array, because Ably will not send a Map. Also shuffles array
             let answers_array = []
             for(const [key, value] of this.answers)
             {
                 answers_array.push({username: key, answer: value})
             }
+            answers_array = shuffle(answers_array)
             
             await channel.publish("show_answers", { answers_array: answers_array})
         },
@@ -317,3 +328,12 @@ export const useNetworkStore = defineStore('network', {
         }
     }
 })
+
+// Helper function to shuffle an array
+function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array; 
+  }
