@@ -130,10 +130,10 @@ export const useNetworkStore = defineStore('network', {
 
                     // Display all answers.
                     case "show_answers":
-                        // Places two arrays into Map
+                        // Places usernames & answers into Map
                         for(let i = 0; i < message.data.answers_array.length; i++)
                         {
-                            this.answers.set(message.data.usernames_array[i], message.data.answers_array[i])
+                            this.answers.set(message.data.answers_array[i].username, message.data.answers_array[i].answer)
                         }
                         
                         this.stopTimer = true
@@ -244,16 +244,14 @@ export const useNetworkStore = defineStore('network', {
         async showAnswers() {
             const channel = this.ably.channels.get(this.roomCode)
 
-            // Converts Map into two arrays, because Ably will not send a Map for some reason
+            // Stores key/value pairs into an array, because Ably will not send a Map
             let answers_array = []
-            let usernames_array = []
             for(const [key, value] of this.answers)
             {
-                usernames_array.push(key)
-                answers_array.push(value)
+                answers_array.push({username: key, answer: value})
             }
             
-            await channel.publish("show_answers", { answers_array: answers_array, usernames_array: usernames_array })
+            await channel.publish("show_answers", { answers_array: answers_array})
         },
 
         /*
