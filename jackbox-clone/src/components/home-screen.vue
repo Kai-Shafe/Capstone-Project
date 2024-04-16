@@ -60,7 +60,7 @@
         </div>
         <div v-else-if="networkStore.getCurrentState == 'show-correct-answer'">
           <p>{{this.networkStore.currentQuestion}}</p>
-          
+          <p>The correct answer was: {{this.networkStore.currentCorrectAnswer}}</p>
         </div>
       </div>
     </div>

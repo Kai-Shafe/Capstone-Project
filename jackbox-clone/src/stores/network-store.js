@@ -1,3 +1,7 @@
+// TODO: 
+// duplicate answer protection
+// prevent users from selecting own answer
+
 import { defineStore } from "pinia"
 import Ably from "ably"
 import json_object from "../../questions.json"
@@ -64,7 +68,8 @@ export const useNetworkStore = defineStore('network', {
                         this.answers.clear()
                         this.selectedAnswers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
-                        this.answers.set("Correct", this.questions[this.currentRound].correct_answer)
+                        this.currentCorrectAnswer = this.questions[this.currentRound].correct_answer
+                        this.answers.set("Correct", this.currentCorrectAnswer)
                         this.currentState = 'answer-question'
                         this.startTimer()
                         break
@@ -130,6 +135,7 @@ export const useNetworkStore = defineStore('network', {
                     case "start_round":
                         this.answers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
+                        this.currentCorrectAnswer = this.questions[this.currentRound].correct_answer
                         this.currentState = 'answer-question'
                         this.startTimer()
                         break
@@ -249,6 +255,7 @@ export const useNetworkStore = defineStore('network', {
         /*
         Show Answers:
             -Publish show_answers message to channel with answers map.
+            -Shuffles answers
             -Only called by host
         */
         async showAnswers() {
@@ -273,7 +280,9 @@ export const useNetworkStore = defineStore('network', {
         async selectAnswer(answer) {
             this.currentState = 'answer-selected';
             const channel = this.ably.channels.get(this.roomCode);
-            
+
+            // Score is computed in showCorrectAnswer
+            /*
                 // Compare selected answer with the correct answer
             if (answer === this.answers.get("Correct")) {
                     // This is the correct answer
@@ -283,13 +292,20 @@ export const useNetworkStore = defineStore('network', {
                     // This is not the correct answer
                     // You can handle incorrect answer logic here
                     //player that made up the lie gets points here
-                    const submittedUsername=this.players.find(player =>player.answer===answer).username;
+                    let submittedUsername = ""
+                    for(const [key, value] of this.answers)
+                    {
+                        if(value == answer)
+                        {
+                            submittedUsername = key
+                        }
+                    }
                     this.points.set(submittedUsername,this.points.get(submittedUsername)+10);
                     console.log(`${submittedUsername}'s new score: ${this.points.get(submittedUsername)}`);
             }
-            
-                // Publish the selected answer
-                await channel.publish("answer_selected", { username: this.username, answer_selected: answer });
+            */
+            // Publish the selected answer
+            await channel.publish("answer_selected", { username: this.username, answer_selected: answer });
         },
         
         /*
