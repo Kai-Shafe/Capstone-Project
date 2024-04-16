@@ -32,17 +32,17 @@
           </div>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
-          <p>What is the capital of Brazil?</p>
+          <p>{{this.networkStore.currentQuestion}}</p>
           <input v-model="answer" placeholder="Enter lie" />
           <input type="button" value="Submit" @click="send_answer(answer)" />
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-sent'">
-          <p>What is the capital of Brazil?</p>
+          <p>{{this.networkStore.currentQuestion}}</p>
           <p>Waiting for other players to submit an answer...</p>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'show-answers'">
-          <p>What is the capital of Brazil?</p>
+          <p>{{this.networkStore.currentQuestion}}</p>
           <div class="answer-grid">
             <ButtonAnswer 
               v-for="answer in getAnswersArray()" 
@@ -55,11 +55,11 @@
           <input type="button" value="add answer (test function)" @click="add_test_answer()" />
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-selected'">
-          <p>What is the capital of Brazil?</p>
+          <p>{{this.networkStore.currentQuestion}}</p>
           <p>Waiting for other players to select an answer...</p>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'show-correct-answer'">
-          <p>What is the capital of Brazil?</p>
+          <p>{{this.networkStore.currentQuestion}}</p>
           
         </div>
       </div>

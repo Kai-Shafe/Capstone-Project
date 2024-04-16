@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import Ably from "ably"
+import json_object from "../../questions.json"
 
 const CORRECT_SELECTED = 5
 const FAKE_SELECTED = 5
@@ -17,9 +18,10 @@ export const useNetworkStore = defineStore('network', {
         selectedAnswers: new Map(),
         clockTimer: 0,
         stopTimer: false,
+        currentQuestion: '',
         currentRound: 0,
         maxRounds: 5,
-        questions: [], // TODO: Extract from json and fill with maxRounds num of questions.
+        questions: json_object.questions,
     }),
 
     getters: {
@@ -57,21 +59,12 @@ export const useNetworkStore = defineStore('network', {
                         
                         break
 
-                    // Initialize game session.
-                    case "start_game":
-                        this.currentRound = 0
-                        // Prompt host for max rounds?
-                        // TODO: Extract questions.
-                        // Send questions to clients. (Do this sequentially round by round?)
-                        channel.publish("questions_init", { allQuestions: this.questions })
-                        break
-
                     // Begin game round.
                     case "start_round":
                         this.answers.clear()
                         this.selectedAnswers.clear()
-                        // TODO: Extract current correct answer from questions array and underlying json object
-                        this.answers.set("Correct", this.questions[this.currentRound])
+                        this.currentQuestion = this.questions[this.currentRound].text
+                        this.answers.set("Correct", this.questions[this.currentRound].correct_answer)
                         this.currentState = 'answer-question'
                         this.startTimer()
                         break
@@ -79,7 +72,7 @@ export const useNetworkStore = defineStore('network', {
                     // Client submission of fake answer.
                     case "answer_sent":
                         this.answers.set(message.data.username, message.data.answer)
-                        if (this.answers.length == this.players.length) {
+                        if (this.answers.size - 1 == this.players.size) {
                             this.stopTimer = true
                         }
                         break
@@ -95,7 +88,7 @@ export const useNetworkStore = defineStore('network', {
                         // Add player and associated selected answer to map.
                         this.selectedAnswers.set(message.data.username, message.data.answer_selected)
                         // Once all players have submitted:
-                        if (this.selectedAnswers.length == this.players.length) {
+                        if (this.selectedAnswers.size == this.players.size) {
                             this.stopTimer = true
                         }
                         break
@@ -127,24 +120,25 @@ export const useNetworkStore = defineStore('network', {
             await channel.subscribe((message) => {
                 switch (message.name) {
 
-                    // Initialize questions for game client.
-                    case "questions_init":
-                        this.questions = message.allQuestions
-                        break
-
                     // Begin game round.
                     case "start_round":
                         this.answers.clear()
+                        this.currentQuestion = this.questions[this.currentRound].text
                         this.currentState = 'answer-question'
                         this.startTimer()
                         break
 
                     // Display all answers.
                     case "show_answers":
+                        // Places two arrays into Map
+                        for(let i = 0; i < message.data.answers_array.length; i++)
+                        {
+                            this.answers.set(message.data.usernames_array[i], message.data.answers_array[i])
+                        }
+                        
                         this.stopTimer = true
                         this.startTimer()
                         this.currentState = 'show-answers'
-                        this.answers = message.data.answers
                         break
 
                     // Display correct answer.
@@ -249,7 +243,17 @@ export const useNetworkStore = defineStore('network', {
         */
         async showAnswers() {
             const channel = this.ably.channels.get(this.roomCode)
-            await channel.publish("show_answers", { answers: this.answers })
+
+            // Converts Map into two arrays, because Ably will not send a Map for some reason
+            let answers_array = []
+            let usernames_array = []
+            for(const [key, value] of this.answers)
+            {
+                usernames_array.push(key)
+                answers_array.push(value)
+            }
+            
+            await channel.publish("show_answers", { answers_array: answers_array, usernames_array: usernames_array })
         },
 
         /*
