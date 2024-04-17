@@ -79,7 +79,10 @@
               }"
             />
           </div>
-          <p></p>
+          <p>Scores: </p>
+          <div v-for="player in getPlayersArray()" :key="player">
+            <p>{{ player }}: {{ networkStore.points.get(player) }}</p>
+          </div>
           <div v-if="networkStore.host == true">
             <input type="button" value="Next round" @click="start_round()" />
           </div>
