@@ -1,7 +1,3 @@
-// TODO: 
-// duplicate answer protection
-// prevent users from selecting own answer
-
 import { defineStore } from "pinia"
 import Ably from "ably"
 import json_object from "../../questions.json"
@@ -23,6 +19,7 @@ export const useNetworkStore = defineStore('network', {
         clockTimer: 0,
         stopTimer: false,
         currentQuestion: '',
+        currentCorrectAnswer: '',
         currentRound: 0,
         maxRounds: 5,
         questions: json_object.questions,
@@ -136,13 +133,20 @@ export const useNetworkStore = defineStore('network', {
                         this.answers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
                         this.currentCorrectAnswer = this.questions[this.currentRound].correct_answer
+                        this.answers.set("Correct", this.currentCorrectAnswer)
                         this.currentState = 'answer-question'
                         this.startTimer()
                         break
 
+                    // Client submission of fake answer.
+                    case "answer_sent":
+                        this.answers.set(message.data.username, message.data.answer)
+                        break
+
                     // Display all answers.
                     case "show_answers":
-                        // Places usernames & answers into Map
+                        // Places shuffled usernames & answers into Map
+                        this.answers.clear()
                         for(let i = 0; i < message.data.answers_array.length; i++)
                         {
                             this.answers.set(message.data.answers_array[i].username, message.data.answers_array[i].answer)
@@ -244,12 +248,20 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_sent message with username and fake answer data.
         */
         async sendAnswer(answer) {
-            if(answer != this.questions[this.currentRound].correct_answer)
+            // Checks if fake answer has already been sent by another user, or if it is the correct answer
+            for(const value of this.answers.values())
             {
-                this.currentState = 'answer-sent'
-                const channel = this.ably.channels.get(this.roomCode)
-                await channel.publish("answer_sent", { username: this.username, answer: answer })
+                if(answer == value)
+                {
+                    // Answer is either the correct answer or has already been sent by another user
+                    return
+                }
             }
+
+
+            this.currentState = 'answer-sent'
+            const channel = this.ably.channels.get(this.roomCode)
+            await channel.publish("answer_sent", { username: this.username, answer: answer })
         },
 
         /*
@@ -278,6 +290,11 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_selected message to channel with username and selected answer data.
         */
         async selectAnswer(answer) {
+            // Prevents users from selecting their own answer.
+            if(answer == this.answers.get(this.username))
+            {
+                return
+            }
             this.currentState = 'answer-selected';
             const channel = this.ably.channels.get(this.roomCode);
 
