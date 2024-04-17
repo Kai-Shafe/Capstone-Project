@@ -1,4 +1,5 @@
-  <template>
+  
+ <template>
     <button class="button-answer" >{{ answer }}</button>
   </template>
   
@@ -30,7 +31,22 @@
     -webkit-user-select: none;
     touch-action: manipulation;
   }
+  .correct-answer {
+    background-color: green;
+    color: #ffffff;
+    cursor: not-allowed
+  }
+  .incorrect-answer {
+    background-color: red;
+    color: #ffffff;
+    cursor: not-allowed;
+  }
+  .disabled-answer{
+    background-color: #e0e0e0 !important;
+    color: #ffffff;
+    cursor: not-allowed;
 
+  }
   .button-answer:active {
     box-shadow: #2c3e50 2px 2px 0 0;
     transform: translate(2px, 2px);

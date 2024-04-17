@@ -2,7 +2,7 @@ import { defineStore } from "pinia"
 import Ably from "ably"
 import json_object from "../../questions.json"
 
-const CORRECT_SELECTED = 5
+const CORRECT_SELECTED = 10
 const FAKE_SELECTED = 5
 
 export const useNetworkStore = defineStore('network', {

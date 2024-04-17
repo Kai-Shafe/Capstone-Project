@@ -57,10 +57,29 @@
         <div v-else-if="networkStore.getCurrentState == 'answer-selected'">
           <p>{{this.networkStore.currentQuestion}}</p>
           <p>Waiting for other players to select an answer...</p>
+          <div>
+            <ButtonAnswer
+              v-for="answer in getAnswersArray()"
+              :key="answer"
+              :answer="answer"
+              :disabled="networkStore.getCurrentState!=='answer-selected'"
+            />
+          </div>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'show-correct-answer'">
           <p>{{this.networkStore.currentQuestion}}</p>
-          <p>The correct answer was: {{this.networkStore.currentCorrectAnswer}}</p>
+          <div>
+            <ButtonAnswer
+              v-for="answer in getAnswersArray()"
+              :key="answer"
+              :answer="answer"
+              :class="{
+                'correct-answer': answer===networkStore.currentCorrectAnswer,
+                'incorrect-answer': answer!==networkStore.currentCorrectAnswer
+              }"
+            />
+          </div>
+          <p></p>
           <div v-if="networkStore.host == true">
             <input type="button" value="Next round" @click="start_round()" />
           </div>
