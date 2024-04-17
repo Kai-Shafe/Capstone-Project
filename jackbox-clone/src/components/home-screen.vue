@@ -28,7 +28,7 @@
               :playerName="username"
               />
             </table>
-            <ButtonAnswer @click="start_game()" answer="Everybody's In"/>
+            <ButtonAnswer @click="start_round()" answer="Everybody's In"/>
           </div>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
@@ -61,6 +61,12 @@
         <div v-else-if="networkStore.getCurrentState == 'show-correct-answer'">
           <p>{{this.networkStore.currentQuestion}}</p>
           <p>The correct answer was: {{this.networkStore.currentCorrectAnswer}}</p>
+          <div v-if="networkStore.host == true">
+            <input type="button" value="Next round" @click="start_round()" />
+          </div>
+          <div v-else>
+            <p>Waiting for host to begin the next round</p>
+          </div>
         </div>
       </div>
     </div>
@@ -99,8 +105,8 @@
       set_username(usernameInput) {
         this.networkStore.setUsername(usernameInput)
       },
-      start_game() {
-        this.networkStore.startGame()
+      start_round() {
+        this.networkStore.startRound()
       },
       send_answer(answer) {
         this.networkStore.sendAnswer(answer)
@@ -112,7 +118,7 @@
         this.networkStore.selectAnswer(answer)
       },
       getAnswersArray() {
-      return Array.from(this.networkStore.answers.values())
+        return Array.from(this.networkStore.answers.values())
       },
       getPlayersArray() {
         return Array.from(this.networkStore.players)

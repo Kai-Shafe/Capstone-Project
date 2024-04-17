@@ -20,7 +20,7 @@ export const useNetworkStore = defineStore('network', {
         stopTimer: false,
         currentQuestion: '',
         currentCorrectAnswer: '',
-        currentRound: 0,
+        currentRound: -1,
         maxRounds: 5,
         questions: json_object.questions,
     }),
@@ -62,6 +62,7 @@ export const useNetworkStore = defineStore('network', {
 
                     // Begin game round.
                     case "start_round":
+                        this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.selectedAnswers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
@@ -130,6 +131,7 @@ export const useNetworkStore = defineStore('network', {
 
                     // Begin game round.
                     case "start_round":
+                        this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
                         this.currentCorrectAnswer = this.questions[this.currentRound].correct_answer
@@ -233,10 +235,17 @@ export const useNetworkStore = defineStore('network', {
         // *** Game action messages: ***
 
         /*
-        Start Game:
+        Start Round:
             -Publish start_round message to channel.
+            -Only called by host
         */
-        async startGame() {
+        async startRound() {
+            if(this.currentRound + 1 == this.questions.length)
+            {
+                // Reached end of question list
+                return
+            }
+
             const channel = this.ably.channels.get(this.roomCode)
             // TODO: Do we need to send the username?
             await channel.publish("start_round", { username: this.username })
@@ -364,9 +373,10 @@ export const useNetworkStore = defineStore('network', {
 
 // Helper function to shuffle an array
 function shuffle(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+    for (let i = array.length - 1; i > 0; i--) 
+    {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
     }
     return array; 
-  }
+}
