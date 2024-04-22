@@ -19,6 +19,9 @@
             <p>Waiting for host to start...</p>
           </div>
           <div v-if="this.networkStore.host == true">
+            <p>Current number of rounds: {{ currentRounds }}</p>
+            <button @click="incrementMaxRounds">Increment maxRounds</button>
+            <button @click="decrementMaxRounds">Decrement maxRounds</button>
             <table class="player-list">
               <tr>
                 <th>Players</th>
@@ -123,7 +126,18 @@
     props: {
       msg: String
     },
+    computed:{
+      currentRounds(){
+        return this.networkStore.maxRounds
+      }
+    },
     methods: {
+      incrementMaxRounds(){
+        this.networkStore.maxRounds+=1
+      },
+      decrementMaxRounds(){
+        this.networkStore.maxRounds-=1
+      },
       host_game() {
         this.networkStore.hostGame()
       },
