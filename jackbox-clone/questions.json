@@ -258,6 +258,69 @@
             "text": "Actor ___ played Captain Jack Sparrow in the Pirates of the Caribbean films",
             "correct_answer": "Johnny Depp",
             "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What year did the United States declare independence from Britain",
+            "correct_answer": "1776",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the chemical symbol for sodium",
+            "correct_answer": "Na",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The ___ Ocean is the largest ocean in the world",
+            "correct_answer": "Ocean",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Actor ___ plays Tony Stark in the Marvel Cinematic Universe",
+            "correct_answer": "Robert Downey Jr.",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "When a golf player completes a hole in one stroke under par, it is known as a ___",
+            "correct_answer": "Birdie",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The French Revolution began in the year ___",
+            "correct_answer": "1789",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for oxygen is ___",
+            "correct_answer": "O",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The country ___ is also the largest island in the world",
+            "correct_answer": "Greenland",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ directed the movie 'The Shawshank Redemption'?",
+            "correct_answer": "Frank Darabont",
+            "subject": "Entertainment"
         }
     ]
 }
