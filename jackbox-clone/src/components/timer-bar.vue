@@ -24,18 +24,22 @@
   <!-- Add "scoped" attribute to limit CSS to this component only -->
   <style scoped>
     #barWrapper {
-        margin: 10%;
+        margin: 5%;
+        border: 2px solid #000000;
+        border-radius: 20px;
     }
 
     #myProgress {
         width: 100%;
         background-color: #ddd;
+        border-radius: 20px;
     }
 
     #myBar {
         width: v-bind("getPercent(widthTimer)");
         height: 30px;
         background-color: #2cb0c2;
+        border-radius: 20px;
     }
   </style>
   
