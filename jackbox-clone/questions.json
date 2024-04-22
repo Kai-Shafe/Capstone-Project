@@ -27,6 +27,181 @@
             "text":"The atomic number of Carbon is ___",
             "correct_answer":"6",
             "subject":"Chemistry"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ was the first president of the United States",
+            "correct_answer": "George Washington",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "In what year did the Titanic sink?",
+            "correct_answer": "1912",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Who was the first female Prime Minister of the United Kingdom?",
+            "correct_answer": "Margaret Thatcher",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What year did the Berlin Wall fall?",
+            "correct_answer": "1989",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ was the longest-reigning monarch in British history",
+            "correct_answer": "Queen Victoria",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the chemical symbol for water?",
+            "correct_answer": "H2O",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the closest planet to the Sun?",
+            "correct_answer": "Mercury",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the process by which plants make their food called?",
+            "correct_answer": "Photosynthesis",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the largest organ in the human body?",
+            "correct_answer": "The skin",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the study of earthquakes called?",
+            "correct_answer": "Seismology",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the capital city of Australia?",
+            "correct_answer": "Canberra",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Which country is known as the Land of the Rising Sun?",
+            "correct_answer": "Japan",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the longest river in the world?",
+            "correct_answer": "The Nile River",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Which continent is the largest by land area?",
+            "correct_answer": "Asia",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the smallest country in the world?",
+            "correct_answer": "Vatican City",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Who played the role of Harry Potter in the film series?",
+            "correct_answer": "Daniel Radcliffe",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the highest-grossing film of all time (as of 2022)?",
+            "correct_answer": "Avengers: Endgame",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the name of the fictional city where Batman operates?",
+            "correct_answer": "Gotham City",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Who wrote the novel \"To Kill a Mockingbird\"?",
+            "correct_answer": "Harper Lee",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the name of the famous ship in the movie \"Titanic\"?",
+            "correct_answer": "The RMS Titanic",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "In what sport is a shuttlecock used?",
+            "correct_answer": "Badminton",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Who has won the most Wimbledon titles in tennis (men's singles)?",
+            "correct_answer": "Roger Federer",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the highest score possible in a single frame of bowling?",
+            "correct_answer": "300",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Which country has won the most FIFA World Cup titles in soccer?",
+            "correct_answer": "Brazil",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "In what year were the first modern Olympic Games held?",
+            "correct_answer": "1896",
+            "subject": "Sports"
         }
     ]
 }
