@@ -54,6 +54,9 @@
               @click="select_answer(answer)"
             />
           </div>
+          <div v-if="this.networkStore.selectedOwnAnswer == true">
+            <p>You cannot select your own answer.</p>
+          </div>
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
           <input type="button" value="add answer (test function)" @click="add_test_answer()" />
         </div>

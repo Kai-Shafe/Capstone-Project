@@ -23,7 +23,8 @@ export const useNetworkStore = defineStore('network', {
         currentRound: -1,
         maxRounds: 5,
         questions: json_object.questions,
-        tryAnotherAnswer: false
+        tryAnotherAnswer: false,
+        selectedOwnAnswer: false
     }),
 
     getters: {
@@ -63,6 +64,8 @@ export const useNetworkStore = defineStore('network', {
 
                     // Begin game round.
                     case "start_round":
+                        this.selectedOwnAnswer = false
+                        this.tryAnotherAnswer = false
                         this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.selectedAnswers.clear()
@@ -137,7 +140,8 @@ export const useNetworkStore = defineStore('network', {
                         {
                             this.players.add(message.data.usernames[i])
                         }
-
+                        this.selectedOwnAnswer = false
+                        this.tryAnotherAnswer = false
                         this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
@@ -315,9 +319,15 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_selected message to channel with username and selected answer data.
         */
         async selectAnswer(answer) {
+            if(this.selectedOwnAnswer)
+            {
+                this.selectedOwnAnswer = false;
+            }
+
             // Prevents users from selecting their own answer.
             if(answer == this.answers.get(this.username))
             {
+                this.selectedOwnAnswer = true;
                 return
             }
             this.currentState = 'answer-selected';
