@@ -68,5 +68,5 @@ jobs:
         with:
           app-name: 'truthtwister'
           slot-name: 'Production'
-          package: .
+          package: jackbox-clone
           
