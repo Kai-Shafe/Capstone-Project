@@ -21,7 +21,7 @@ export const useNetworkStore = defineStore('network', {
         currentQuestion: '',
         currentCorrectAnswer: '',
         currentRound: -1,
-        maxRounds: 5,
+        maxRounds: 4,
         questions: json_object.questions,
         tryAnotherAnswer: false,
         selectedOwnAnswer: false
@@ -47,7 +47,10 @@ export const useNetworkStore = defineStore('network', {
             // TODO (want): Guarantee unique room code.
             this.roomCode = (Math.random() + 1).toString(36).substring(7).toUpperCase();
             const channel = this.ably.channels.get(this.roomCode)
-        
+
+            // Shuffle list of questions
+            this.questions = shuffle(this.questions)
+
             // Ably message actions (host)
             await channel.subscribe((message) => {
                 switch (message.name) {
@@ -132,6 +135,12 @@ export const useNetworkStore = defineStore('network', {
             // Ably message actions (client)
             await channel.subscribe((message) => {
                 switch (message.name) {
+
+                    // Gets shuffled question list from host
+                    case "init_questions":
+                        this.questions = message.data.shuffled_questions
+                        console.log("1")
+                        break
 
                     // Begin game round.
                     case "start_round":
@@ -259,13 +268,15 @@ export const useNetworkStore = defineStore('network', {
             -Only called by host
         */
         async startRound() {
-            if(this.currentRound + 1 == this.questions.length)
+            if(this.currentRound + 1 == this.maxRounds)
             {
-                // Reached end of question list
+                // End game
                 return
             }
 
             const channel = this.ably.channels.get(this.roomCode)
+            await channel.publish("init_questions", {shuffled_questions: this.questions})
+            console.log("2")
             let players_array = Array.from(this.players)
             await channel.publish("start_round", { usernames: players_array })
         },
