@@ -38,21 +38,21 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "In what year did the Titanic sink?",
+            "text": "The Titanic sank in the year ___",
             "correct_answer": "1912",
             "subject": "History"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Who was the first female Prime Minister of the United Kingdom?",
+            "text": "___ was the first female Prime Minister of the United Kingdom",
             "correct_answer": "Margaret Thatcher",
             "subject": "History"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What year did the Berlin Wall fall?",
+            "text": "The Berlin Wall fell in the year ___",
             "correct_answer": "1989",
             "subject": "History"
         },
@@ -66,142 +66,198 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the chemical symbol for water?",
+            "text": "The chemical formula for water is ___",
             "correct_answer": "H2O",
             "subject": "Science"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the closest planet to the Sun?",
+            "text": "___ is the planet closest to the Sun",
             "correct_answer": "Mercury",
             "subject": "Science"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the process by which plants make their food called?",
+            "text": "___ is the process by which plants make their food",
             "correct_answer": "Photosynthesis",
             "subject": "Science"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the largest organ in the human body?",
-            "correct_answer": "The skin",
+            "text": "The ___ is the largest organ in the human body",
+            "correct_answer": "skin",
             "subject": "Science"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the study of earthquakes called?",
+            "text": "The study of earthquakes called ___",
             "correct_answer": "Seismology",
             "subject": "Science"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the capital city of Australia?",
+            "text": "___ is the capital city of Australia",
             "correct_answer": "Canberra",
             "subject": "Geography"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Which country is known as the Land of the Rising Sun?",
+            "text": "___ is also known as the Land of the Rising Sun",
             "correct_answer": "Japan",
             "subject": "Geography"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the longest river in the world?",
-            "correct_answer": "The Nile River",
+            "text": "The ___ River is the longest river in the world",
+            "correct_answer": "Nile",
             "subject": "Geography"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Which continent is the largest by land area?",
+            "text": "___ is the largest continent by land area?",
             "correct_answer": "Asia",
             "subject": "Geography"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the smallest country in the world?",
+            "text": "___ is the smallest country in the world",
             "correct_answer": "Vatican City",
             "subject": "Geography"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Who played the role of Harry Potter in the film series?",
+            "text": "The actor ___ played the role of Harry Potter in the film series",
             "correct_answer": "Daniel Radcliffe",
             "subject": "Entertainment"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the highest-grossing film of all time (as of 2022)?",
+            "text": "___ is the highest-grossing film of all time (as of 2022)",
             "correct_answer": "Avengers: Endgame",
             "subject": "Entertainment"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the name of the fictional city where Batman operates?",
+            "text": "___ is the fictional city where Batman operates",
             "correct_answer": "Gotham City",
             "subject": "Entertainment"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Who wrote the novel \"To Kill a Mockingbird\"?",
+            "text": "___ is the author of the novel \"To Kill a Mockingbird\"",
             "correct_answer": "Harper Lee",
             "subject": "Entertainment"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the name of the famous ship in the movie \"Titanic\"?",
-            "correct_answer": "The RMS Titanic",
-            "subject": "Entertainment"
-        },
-        {
-            "type": "fill_in_the_blank",
-            "case_sensitive": false,
-            "text": "In what sport is a shuttlecock used?",
+            "text": "In the sport ___, a shuttlecock is used",
             "correct_answer": "Badminton",
             "subject": "Sports"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Who has won the most Wimbledon titles in tennis (men's singles)?",
+            "text": "___ has won the most Wimbledon titles in men's singles tennis",
             "correct_answer": "Roger Federer",
             "subject": "Sports"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the highest score possible in a single frame of bowling?",
+            "text": "The highest score possible in a single frame of bowling is ___",
             "correct_answer": "300",
             "subject": "Sports"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "Which country has won the most FIFA World Cup titles in soccer?",
+            "text": "The country ___ has won the most FIFA World Cup titles in soccer",
             "correct_answer": "Brazil",
             "subject": "Sports"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "In what year were the first modern Olympic Games held?",
+            "text": "The first modern Olympic Games were held in the year ___",
             "correct_answer": "1896",
             "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The mathematician ___ is also known as the 'Father of Geometry'",
+            "correct_answer": "Euclid",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for iron is ___",
+            "correct_answer": "Fe",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ directed the movie 'Inception'",
+            "correct_answer": "Christopher Nolan",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The diameter of a standard basketball hoop is ___ inches",
+            "correct_answer": "18",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the capital city of Brazil",
+            "correct_answer": "Brasília",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is credited as having invented the telephone",
+            "correct_answer": "Alexander Graham Bell",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for gold is ___",
+            "correct_answer": "Au",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Mount ___ is the tallest mountain in Africa",
+            "correct_answer": "Kilimanjaro",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Actor ___ played Captain Jack Sparrow in the Pirates of the Caribbean films",
+            "correct_answer": "Johnny Depp",
+            "subject": "Entertainment"
         }
     ]
 }
