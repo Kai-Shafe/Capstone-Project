@@ -35,6 +35,9 @@
           <p>{{this.networkStore.currentQuestion}}</p>
           <input v-model="answer" placeholder="Enter lie" />
           <input type="button" value="Submit" @click="send_answer(answer)" />
+          <div v-if="this.networkStore.tryAnotherAnswer == true">
+            <p>That is either the correct answer, or someone has already entered that answer. Please enter a different answer.</p>
+          </div>
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-sent'">
@@ -80,8 +83,8 @@
             />
           </div>
           <p>Scores: </p>
-          <div v-for="player in getPlayersArray()" :key="player">
-            <p>{{ player }}: {{ networkStore.points.get(player) }}</p>
+          <div v-for="[player, points] in getPointsMap()">
+            <p>{{ player }}: {{ points }}</p>
           </div>
           <div v-if="networkStore.host == true">
             <input type="button" value="Next round" @click="start_round()" />
@@ -144,6 +147,9 @@
       },
       getPlayersArray() {
         return Array.from(this.networkStore.players)
+      },
+      getPointsMap() {
+        return this.networkStore.points
       }
     }
   }
