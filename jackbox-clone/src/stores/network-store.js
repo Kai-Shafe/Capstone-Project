@@ -304,12 +304,7 @@ export const useNetworkStore = defineStore('network', {
 
             // Stores key/value pairs into an array, because Ably will not send a Map. Also shuffles array
             let answers_array = Array.from(this.answers, ([username, answer]) => ({username, answer}))
-            //for(const [key, value] of this.answers)
-            //{
-            //    answers_array.push({username: key, answer: value})
-            //}
             answers_array = shuffle(answers_array)
-            //array = Array.from(map, ([name, value]) => ({ name, value }));
             
             await channel.publish("show_answers", { answers_array: answers_array})
         },
@@ -328,29 +323,6 @@ export const useNetworkStore = defineStore('network', {
             this.currentState = 'answer-selected';
             const channel = this.ably.channels.get(this.roomCode);
 
-            // Score is computed in showCorrectAnswer
-            /*
-                // Compare selected answer with the correct answer
-            if (answer === this.answers.get("Correct")) {
-                    // This is the correct answer
-                    // You can handle scoring or any other logic here
-                    this.points.set(this.username,this.points.get(this.username)+50);
-            } else {
-                    // This is not the correct answer
-                    // You can handle incorrect answer logic here
-                    //player that made up the lie gets points here
-                    let submittedUsername = ""
-                    for(const [key, value] of this.answers)
-                    {
-                        if(value == answer)
-                        {
-                            submittedUsername = key
-                        }
-                    }
-                    this.points.set(submittedUsername,this.points.get(submittedUsername)+10);
-                    console.log(`${submittedUsername}'s new score: ${this.points.get(submittedUsername)}`);
-            }
-            */
             // Publish the selected answer
             await channel.publish("answer_selected", { username: this.username, answer_selected: answer });
         },
@@ -388,12 +360,7 @@ export const useNetworkStore = defineStore('network', {
             const channel = this.ably.channels.get(this.roomCode)
             
             // Stores key/value pairs into an array, because Ably will not send a Map
-            //let points_array = this.points.entries();
-            //for(const [key, value] of this.points)
-            //{
-            //    points_array.push({username: key, points: value})
-            //}
-            // Sort points array
+            // Sorts points array
             let points_array = Array.from(this.points, ([username, points]) => ({ username, points }));
             points_array.sort((a, b) => b.points - a.points)
             this.points.clear()
