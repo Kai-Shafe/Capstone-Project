@@ -23,6 +23,8 @@ export const useNetworkStore = defineStore('network', {
         currentRound: -1,
         maxRounds: 5,
         questions: json_object.questions,
+        tryAnotherAnswer: false,
+        selectedOwnAnswer: false
     }),
 
     getters: {
@@ -62,6 +64,8 @@ export const useNetworkStore = defineStore('network', {
 
                     // Begin game round.
                     case "start_round":
+                        this.selectedOwnAnswer = false
+                        this.tryAnotherAnswer = false
                         this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.selectedAnswers.clear()
@@ -131,6 +135,13 @@ export const useNetworkStore = defineStore('network', {
 
                     // Begin game round.
                     case "start_round":
+                        this.players.clear()
+                        for(let i = 0; i < message.data.usernames.length; i++)
+                        {
+                            this.players.add(message.data.usernames[i])
+                        }
+                        this.selectedOwnAnswer = false
+                        this.tryAnotherAnswer = false
                         this.currentRound = this.currentRound + 1
                         this.answers.clear()
                         this.currentQuestion = this.questions[this.currentRound].text
@@ -162,6 +173,14 @@ export const useNetworkStore = defineStore('network', {
                     // Display correct answer.
                     case "show_correct_answer":
                         this.stopTimer = true
+                        
+                        // Places usernames and points into Map
+                        this.points.clear()
+                        for(let i = 0; i < message.data.playerPoints.length; i++)
+                        {
+                            this.points.set(message.data.playerPoints[i].username, message.data.playerPoints[i].points)
+                        }
+
                         this.currentState = 'show-correct-answer'
                         break
 
@@ -247,8 +266,8 @@ export const useNetworkStore = defineStore('network', {
             }
 
             const channel = this.ably.channels.get(this.roomCode)
-            // TODO: Do we need to send the username?
-            await channel.publish("start_round", { username: this.username })
+            let players_array = Array.from(this.players)
+            await channel.publish("start_round", { usernames: players_array })
         },
 
         /*
@@ -257,16 +276,21 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_sent message with username and fake answer data.
         */
         async sendAnswer(answer) {
+            if(this.tryAnotherAnswer)
+            {
+                this.tryAnotherAnswer = false
+            }
+
             // Checks if fake answer has already been sent by another user, or if it is the correct answer
             for(const value of this.answers.values())
             {
                 if(answer == value)
                 {
                     // Answer is either the correct answer or has already been sent by another user
+                    this.tryAnotherAnswer = true
                     return
                 }
             }
-
 
             this.currentState = 'answer-sent'
             const channel = this.ably.channels.get(this.roomCode)
@@ -283,11 +307,7 @@ export const useNetworkStore = defineStore('network', {
             const channel = this.ably.channels.get(this.roomCode)
 
             // Stores key/value pairs into an array, because Ably will not send a Map. Also shuffles array
-            let answers_array = []
-            for(const [key, value] of this.answers)
-            {
-                answers_array.push({username: key, answer: value})
-            }
+            let answers_array = Array.from(this.answers, ([username, answer]) => ({username, answer}))
             answers_array = shuffle(answers_array)
             
             await channel.publish("show_answers", { answers_array: answers_array})
@@ -299,37 +319,20 @@ export const useNetworkStore = defineStore('network', {
             -Publish answer_selected message to channel with username and selected answer data.
         */
         async selectAnswer(answer) {
+            if(this.selectedOwnAnswer)
+            {
+                this.selectedOwnAnswer = false;
+            }
+
             // Prevents users from selecting their own answer.
             if(answer == this.answers.get(this.username))
             {
+                this.selectedOwnAnswer = true;
                 return
             }
             this.currentState = 'answer-selected';
             const channel = this.ably.channels.get(this.roomCode);
 
-            // Score is computed in showCorrectAnswer
-            /*
-                // Compare selected answer with the correct answer
-            if (answer === this.answers.get("Correct")) {
-                    // This is the correct answer
-                    // You can handle scoring or any other logic here
-                    this.points.set(this.username,this.points.get(this.username)+50);
-            } else {
-                    // This is not the correct answer
-                    // You can handle incorrect answer logic here
-                    //player that made up the lie gets points here
-                    let submittedUsername = ""
-                    for(const [key, value] of this.answers)
-                    {
-                        if(value == answer)
-                        {
-                            submittedUsername = key
-                        }
-                    }
-                    this.points.set(submittedUsername,this.points.get(submittedUsername)+10);
-                    console.log(`${submittedUsername}'s new score: ${this.points.get(submittedUsername)}`);
-            }
-            */
             // Publish the selected answer
             await channel.publish("answer_selected", { username: this.username, answer_selected: answer });
         },
@@ -364,9 +367,19 @@ export const useNetworkStore = defineStore('network', {
                     }
                 }
             }
-            this.currentState = 'show-correct-answer'
             const channel = this.ably.channels.get(this.roomCode)
-            await channel.publish("show_correct_answer", { playerPoints: this.points})
+            
+            // Stores key/value pairs into an array, because Ably will not send a Map
+            // Sorts points array
+            let points_array = Array.from(this.points, ([username, points]) => ({ username, points }));
+            points_array.sort((a, b) => b.points - a.points)
+            this.points.clear()
+            for(let i = 0; i < points_array.length; i++)
+            {
+                this.points.set(points_array[i].username, points_array[i].points)
+            }
+            this.currentState = 'show-correct-answer'
+            await channel.publish("show_correct_answer", { playerPoints: points_array})
         }
     }
 })

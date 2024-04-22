@@ -35,12 +35,11 @@
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
           <p>{{this.networkStore.currentQuestion}}</p>
-          <div class="form__group field">
-            <input id="enterLie" class="form__field" v-model="answer" placeholder="Enter lie" />
-            <label for="enterLie" class="form__label">Enter A Lie</label>
-            <ButtonAnswer style="margin-top: 10px" @click="send_answer(answer)" answer="Submit"/>
+          <input v-model="answer" placeholder="Enter lie" />
+          <input type="button" value="Submit" @click="send_answer(answer)" />
+          <div v-if="this.networkStore.tryAnotherAnswer == true">
+            <p>That is either the correct answer, or someone has already entered that answer. Please enter a different answer.</p>
           </div>
-          
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-sent'">
@@ -56,6 +55,9 @@
               :answer="answer"
               @click="select_answer(answer)"
             />
+          </div>
+          <div v-if="this.networkStore.selectedOwnAnswer == true">
+            <p>You cannot select your own answer.</p>
           </div>
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
@@ -85,8 +87,8 @@
             />
           </div>
           <p>Scores: </p>
-          <div v-for="player in getPlayersArray()" :key="player">
-            <p>{{ player }}: {{ networkStore.points.get(player) }}</p>
+          <div v-for="[player, points] in getPointsMap()">
+            <p>{{ player }}: {{ points }}</p>
           </div>
           <div v-if="networkStore.host == true">
             <ButtonAnswer answer="Next round" @click="start_round()" />
@@ -146,6 +148,9 @@
       },
       getPlayersArray() {
         return Array.from(this.networkStore.players)
+      },
+      getPointsMap() {
+        return this.networkStore.points
       }
     }
   }
