@@ -21,7 +21,7 @@ export const useNetworkStore = defineStore('network', {
         currentQuestion: '',
         currentCorrectAnswer: '',
         currentRound: -1,
-        maxRounds: 4,
+        maxRounds: 5,
         questions: json_object.questions,
         tryAnotherAnswer: false,
         selectedOwnAnswer: false
@@ -139,7 +139,6 @@ export const useNetworkStore = defineStore('network', {
                     // Gets shuffled question list from host
                     case "init_questions":
                         this.questions = message.data.shuffled_questions
-                        console.log("1")
                         break
 
                     // Begin game round.
@@ -275,8 +274,10 @@ export const useNetworkStore = defineStore('network', {
             }
 
             const channel = this.ably.channels.get(this.roomCode)
-            await channel.publish("init_questions", {shuffled_questions: this.questions})
-            console.log("2")
+            if(this.currentRound == -1)
+            {
+                await channel.publish("init_questions", {shuffled_questions: this.questions})
+            }
             let players_array = Array.from(this.players)
             await channel.publish("start_round", { usernames: players_array })
         },
