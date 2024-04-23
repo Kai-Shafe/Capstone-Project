@@ -136,7 +136,9 @@
         this.networkStore.maxRounds+=1
       },
       decrementMaxRounds(){
-        this.networkStore.maxRounds-=1
+        if(this.networkStore.maxRounds > 1){
+          this.networkStore.maxRounds-=1
+        }
       },
       host_game() {
         this.networkStore.hostGame()
