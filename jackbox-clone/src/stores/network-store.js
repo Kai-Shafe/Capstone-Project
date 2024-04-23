@@ -296,7 +296,7 @@ export const useNetworkStore = defineStore('network', {
             // Checks if fake answer has already been sent by another user, or if it is the correct answer
             for(const value of this.answers.values())
             {
-                if(answer == value)
+                if(answer.toUpperCase() == value.toUpperCase())
                 {
                     // Answer is either the correct answer or has already been sent by another user
                     this.tryAnotherAnswer = true
