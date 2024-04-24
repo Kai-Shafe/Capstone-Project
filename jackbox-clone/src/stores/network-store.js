@@ -83,6 +83,7 @@ export const useNetworkStore = defineStore('network', {
                     case "answer_sent":
                         this.answers.set(message.data.username, message.data.answer)
                         if (this.answers.size - 1 == this.players.size) {
+                            console.log(this.answers)
                             this.stopTimer = true
                         }
                         break
@@ -189,7 +190,13 @@ export const useNetworkStore = defineStore('network', {
                             this.points.set(message.data.playerPoints[i].username, message.data.playerPoints[i].points)
                         }
 
+                        this.selectedAnswers = new Map(message.data.playerAnswers.map(userAnswer => [userAnswer.username, userAnswer.answer]));
+
                         this.currentState = 'show-correct-answer'
+                        break
+
+                    case "game-over":
+                        this.currentState = "game-over"
                         break
 
                     // Catch unhandled messages.
@@ -238,6 +245,20 @@ export const useNetworkStore = defineStore('network', {
             });
         },
 
+        endGame() {
+            this.currentState = "hostOrJoin"
+            this.roomCode = ""
+            this.host = false
+            this.players = new Set()
+            this.answers = new Map()
+            this.points = new Map()
+            this.selectAnswers = new Map()
+            this.currentRound = -1
+            this.maxRounds = 5
+            this.tryAnotherAnswer = false
+            this.selectedOwnAnswer = false
+        },
+
         // Timer
         // TODO (want): rewrite to be a more general timer, handle state transitions elsewhere.
         startTimer() {
@@ -267,13 +288,14 @@ export const useNetworkStore = defineStore('network', {
             -Only called by host
         */
         async startRound() {
+            const channel = this.ably.channels.get(this.roomCode)
             if(this.currentRound + 1 == this.maxRounds)
             {
-                // End game
+                this.currentState = 'game-over'
+                await channel.publish("game-over", {username: this.username})
                 return
             }
-
-            const channel = this.ably.channels.get(this.roomCode)
+            
             if(this.currentRound == -1)
             {
                 await channel.publish("init_questions", {shuffled_questions: this.questions})
@@ -390,8 +412,11 @@ export const useNetworkStore = defineStore('network', {
             {
                 this.points.set(points_array[i].username, points_array[i].points)
             }
+
+            let player_answers = Array.from(this.selectedAnswers, ([username, answer]) => ({ username, answer }));
+
             this.currentState = 'show-correct-answer'
-            await channel.publish("show_correct_answer", { playerPoints: points_array})
+            await channel.publish("show_correct_answer", { playerPoints: points_array, playerAnswers: player_answers})
         }
     }
 })

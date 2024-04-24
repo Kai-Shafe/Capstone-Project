@@ -32,6 +32,8 @@
     #myProgress {
         width: 100%;
         background-color: #ddd;
+        border-top-left-radius: 20px;
+        border-bottom-left-radius: 20px;
         border-radius: 20px;
     }
 

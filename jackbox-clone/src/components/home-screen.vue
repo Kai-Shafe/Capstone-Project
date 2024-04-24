@@ -23,8 +23,8 @@
           </div>
           <div v-if="this.networkStore.host == true">
             <p>Current number of rounds: {{ currentRounds }}</p>
-            <button @click="incrementMaxRounds">Increment maxRounds</button>
-            <button @click="decrementMaxRounds">Decrement maxRounds</button>
+            <ButtonAnswer @click="decrementMaxRounds()" answer="Decrease (-)"/>
+            <ButtonAnswer @click="incrementMaxRounds()" answer="Increase (+)"/>
             <table class="player-list">
               <tr>
                 <th>Players</th>
@@ -40,8 +40,11 @@
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
           <p>Player: <b>{{this.networkStore.username}}</b></p>
           <p>{{this.networkStore.currentQuestion}}</p>
-          <input v-model="answer" placeholder="Enter lie" />
-          <input type="button" value="Submit" @click="send_answer(answer)" />
+          <div class="form__group field">
+            <input id="enterLie" class="form__field" v-model="answer" placeholder="Enter lie" />
+            <label for="enterLie" class="form__label">Enter A Lie</label>
+            <ButtonAnswer style="margin-top: 10px" @click="send_answer(answer)" answer="Submit"/>
+          </div>
           <div v-if="this.networkStore.tryAnotherAnswer == true">
             <p>That is either the correct answer, or someone has already entered that answer. Please enter a different answer.</p>
           </div>
@@ -93,16 +96,20 @@
               }"
             />
           </div>
-          <p>Scores: </p>
-          <div v-for="[player, points] in getPointsMap()">
-            <p>{{ player }}: {{ points }}</p>
-          </div>
+          <Scoreboard :pointsMap="getPointsMap()" 
+                      :selectedAnswers="this.networkStore.selectedAnswers" 
+                      :playerAnswers="this.networkStore.answers"
+          />
           <div v-if="networkStore.host == true">
             <ButtonAnswer answer="Next round" @click="start_round()" />
           </div>
           <div v-else>
             <p>Waiting for host to begin the next round</p>
           </div>
+        </div>
+        <div v-else-if="networkStore.getCurrentState == 'game-over'">
+          <p>Game Over</p>
+          <ButtonAnswer answer="End Game" @click="end_game()" />
         </div>
       </div>
     </div>
@@ -113,6 +120,7 @@
   import ButtonAnswer from './button-answer.vue'
   import PlayerList from './player-list.vue'
   import TimerBar from './timer-bar.vue'
+  import Scoreboard from './scoreboard.vue'
   import { useNetworkStore } from '../stores/network-store'
 
   export default {
@@ -121,15 +129,13 @@
       HeaderBar,
       ButtonAnswer,
       PlayerList,
-      TimerBar
+      TimerBar,
+      Scoreboard
     },
     data() {
       return {
         networkStore: useNetworkStore()
       }
-    },
-    props: {
-      msg: String
     },
     computed:{
       currentRounds(){
@@ -156,6 +162,7 @@
       },
       start_round() {
         this.networkStore.startRound()
+        this.answer = ""
       },
       send_answer(answer) {
         this.networkStore.sendAnswer(answer)
@@ -170,7 +177,12 @@
         return Array.from(this.networkStore.players)
       },
       getPointsMap() {
+        console.log(this.networkStore.points)
         return this.networkStore.points
+      },
+      end_game() {
+        this.room_code = ""
+        this.networkStore.endGame()
       }
     }
   }
