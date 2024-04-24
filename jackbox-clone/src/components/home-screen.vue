@@ -17,10 +17,14 @@
         <div v-else-if="networkStore.getCurrentState == 'waiting'">
           <p>Room Code:</p>
           <p><b>{{ this.networkStore.roomCode }}</b></p>
+          <p>Player: <i>{{this.networkStore.username}}</i></p>
           <div v-if="this.networkStore.host == false">
             <p>Waiting for host to start...</p>
           </div>
           <div v-if="this.networkStore.host == true">
+            <p>Current number of rounds: {{ currentRounds }}</p>
+            <button @click="incrementMaxRounds">Increment maxRounds</button>
+            <button @click="decrementMaxRounds">Decrement maxRounds</button>
             <table class="player-list">
               <tr>
                 <th>Players</th>
@@ -34,6 +38,7 @@
           </div>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-question'">
+          <p>Player: <b>{{this.networkStore.username}}</b></p>
           <p>{{this.networkStore.currentQuestion}}</p>
           <input v-model="answer" placeholder="Enter lie" />
           <input type="button" value="Submit" @click="send_answer(answer)" />
@@ -47,6 +52,7 @@
           <p>Waiting for other players to submit an answer...</p>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'show-answers'">
+          <p>Player: <b>{{this.networkStore.username}}</b></p>
           <p>{{this.networkStore.currentQuestion}}</p>
           <div class="answer-grid">
             <ButtonAnswer 
@@ -62,6 +68,7 @@
           <TimerBar :widthTimer="this.networkStore.clockTimer"/>
         </div>
         <div v-else-if="networkStore.getCurrentState == 'answer-selected'">
+          <p>Player: <b>{{this.networkStore.username}}</b></p>
           <p>{{this.networkStore.currentQuestion}}</p>
           <p>Waiting for other players to select an answer...</p>
           <div class="answer-grid">
@@ -124,7 +131,20 @@
     props: {
       msg: String
     },
+    computed:{
+      currentRounds(){
+        return this.networkStore.maxRounds
+      }
+    },
     methods: {
+      incrementMaxRounds(){
+        this.networkStore.maxRounds+=1
+      },
+      decrementMaxRounds(){
+        if(this.networkStore.maxRounds > 1){
+          this.networkStore.maxRounds-=1
+        }
+      },
       host_game() {
         this.networkStore.hostGame()
       },

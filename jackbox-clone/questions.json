@@ -27,6 +27,300 @@
             "text":"The atomic number of Carbon is ___",
             "correct_answer":"6",
             "subject":"Chemistry"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ was the first president of the United States",
+            "correct_answer": "George Washington",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The Titanic sank in the year ___",
+            "correct_answer": "1912",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ was the first female Prime Minister of the United Kingdom",
+            "correct_answer": "Margaret Thatcher",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The Berlin Wall fell in the year ___",
+            "correct_answer": "1989",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ was the longest-reigning monarch in British history",
+            "correct_answer": "Queen Victoria",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical formula for water is ___",
+            "correct_answer": "H2O",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the planet closest to the Sun",
+            "correct_answer": "Mercury",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the process by which plants make their food",
+            "correct_answer": "Photosynthesis",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The ___ is the largest organ in the human body",
+            "correct_answer": "skin",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The study of earthquakes called ___",
+            "correct_answer": "Seismology",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the capital city of Australia",
+            "correct_answer": "Canberra",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is also known as the Land of the Rising Sun",
+            "correct_answer": "Japan",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The ___ River is the longest river in the world",
+            "correct_answer": "Nile",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the largest continent by land area?",
+            "correct_answer": "Asia",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the smallest country in the world",
+            "correct_answer": "Vatican City",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The actor ___ played the role of Harry Potter in the film series",
+            "correct_answer": "Daniel Radcliffe",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the highest-grossing film of all time (as of 2022)",
+            "correct_answer": "Avengers: Endgame",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the fictional city where Batman operates",
+            "correct_answer": "Gotham City",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the author of the novel \"To Kill a Mockingbird\"",
+            "correct_answer": "Harper Lee",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "In the sport ___, a shuttlecock is used",
+            "correct_answer": "Badminton",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ has won the most Wimbledon titles in men's singles tennis",
+            "correct_answer": "Roger Federer",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The highest score possible in a single frame of bowling is ___",
+            "correct_answer": "300",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The country ___ has won the most FIFA World Cup titles in soccer",
+            "correct_answer": "Brazil",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The first modern Olympic Games were held in the year ___",
+            "correct_answer": "1896",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The mathematician ___ is also known as the 'Father of Geometry'",
+            "correct_answer": "Euclid",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for iron is ___",
+            "correct_answer": "Fe",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ directed the movie 'Inception'",
+            "correct_answer": "Christopher Nolan",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The diameter of a standard basketball hoop is ___ inches",
+            "correct_answer": "18",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is the capital city of Brazil",
+            "correct_answer": "Brasília",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ is credited as having invented the telephone",
+            "correct_answer": "Alexander Graham Bell",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for gold is ___",
+            "correct_answer": "Au",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Mount ___ is the tallest mountain in Africa",
+            "correct_answer": "Kilimanjaro",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Actor ___ played Captain Jack Sparrow in the Pirates of the Caribbean films",
+            "correct_answer": "Johnny Depp",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What year did the United States declare independence from Britain",
+            "correct_answer": "1776",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "What is the chemical symbol for sodium",
+            "correct_answer": "Na",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The ___ Ocean is the largest ocean in the world",
+            "correct_answer": "Ocean",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "Actor ___ plays Tony Stark in the Marvel Cinematic Universe",
+            "correct_answer": "Robert Downey Jr.",
+            "subject": "Entertainment"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "When a golf player completes a hole in one stroke under par, it is known as a ___",
+            "correct_answer": "Birdie",
+            "subject": "Sports"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The French Revolution began in the year ___",
+            "correct_answer": "1789",
+            "subject": "History"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The chemical symbol for oxygen is ___",
+            "correct_answer": "O",
+            "subject": "Science"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "The country ___ is also the largest island in the world",
+            "correct_answer": "Greenland",
+            "subject": "Geography"
+        },
+        {
+            "type": "fill_in_the_blank",
+            "case_sensitive": false,
+            "text": "___ directed the movie 'The Shawshank Redemption'?",
+            "correct_answer": "Frank Darabont",
+            "subject": "Entertainment"
         }
     ]
 }

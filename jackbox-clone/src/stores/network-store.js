@@ -47,7 +47,10 @@ export const useNetworkStore = defineStore('network', {
             // TODO (want): Guarantee unique room code.
             this.roomCode = (Math.random() + 1).toString(36).substring(7).toUpperCase();
             const channel = this.ably.channels.get(this.roomCode)
-        
+
+            // Shuffle list of questions
+            this.questions = shuffle(this.questions)
+
             // Ably message actions (host)
             await channel.subscribe((message) => {
                 switch (message.name) {
@@ -132,6 +135,11 @@ export const useNetworkStore = defineStore('network', {
             // Ably message actions (client)
             await channel.subscribe((message) => {
                 switch (message.name) {
+
+                    // Gets shuffled question list from host
+                    case "init_questions":
+                        this.questions = message.data.shuffled_questions
+                        break
 
                     // Begin game round.
                     case "start_round":
@@ -259,13 +267,17 @@ export const useNetworkStore = defineStore('network', {
             -Only called by host
         */
         async startRound() {
-            if(this.currentRound + 1 == this.questions.length)
+            if(this.currentRound + 1 == this.maxRounds)
             {
-                // Reached end of question list
+                // End game
                 return
             }
 
             const channel = this.ably.channels.get(this.roomCode)
+            if(this.currentRound == -1)
+            {
+                await channel.publish("init_questions", {shuffled_questions: this.questions})
+            }
             let players_array = Array.from(this.players)
             await channel.publish("start_round", { usernames: players_array })
         },
@@ -284,7 +296,7 @@ export const useNetworkStore = defineStore('network', {
             // Checks if fake answer has already been sent by another user, or if it is the correct answer
             for(const value of this.answers.values())
             {
-                if(answer == value)
+                if(answer.toUpperCase() == value.toUpperCase())
                 {
                     // Answer is either the correct answer or has already been sent by another user
                     this.tryAnotherAnswer = true
