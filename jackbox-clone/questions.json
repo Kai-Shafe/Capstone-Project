@@ -60,7 +60,7 @@
             "type": "fill_in_the_blank",
             "case_sensitive": false,
             "text": "___ was the longest-reigning monarch in British history",
-            "correct_answer": "Queen Victoria",
+            "correct_answer": "Queen Elizabeth II",
             "subject": "History"
         },
         {
@@ -94,7 +94,7 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "The study of earthquakes called ___",
+            "text": "The study of earthquakes is called ___",
             "correct_answer": "Seismology",
             "subject": "Science"
         },
@@ -122,7 +122,7 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "___ is the largest continent by land area?",
+            "text": "___ is the largest continent by land area",
             "correct_answer": "Asia",
             "subject": "Geography"
         },
@@ -143,8 +143,8 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "___ is the highest-grossing film of all time (as of 2022)",
-            "correct_answer": "Avengers: Endgame",
+            "text": "___ is the highest-grossing film of all time",
+            "correct_answer": "Avatar",
             "subject": "Entertainment"
         },
         {
@@ -262,14 +262,14 @@
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What year did the United States declare independence from Britain",
+            "text": "The United States declared independence from Britain in the year ___",
             "correct_answer": "1776",
             "subject": "History"
         },
         {
             "type": "fill_in_the_blank",
             "case_sensitive": false,
-            "text": "What is the chemical symbol for sodium",
+            "text": "The chemical symbol for sodium is ___",
             "correct_answer": "Na",
             "subject": "Science"
         },
@@ -277,7 +277,7 @@
             "type": "fill_in_the_blank",
             "case_sensitive": false,
             "text": "The ___ Ocean is the largest ocean in the world",
-            "correct_answer": "Ocean",
+            "correct_answer": "Pacific",
             "subject": "Geography"
         },
         {
